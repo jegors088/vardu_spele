@@ -1,0 +1,39 @@
+## Visual Studio
+.vs/
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+
+## Visual Studio cache
+.vs/
+
+## Rider
+.idea/
+
+## Logs
+*.log
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## NuGet
+*.nupkg
+packages/
+!packages/build/
+
+## Resharper
+_ReSharper*/
+*.DotSettings.user
