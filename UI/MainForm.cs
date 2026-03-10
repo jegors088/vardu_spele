@@ -49,8 +49,8 @@ namespace HangmanGame.UI
         private void InitializeCustomUI()
         {
             // Form settings
-            Text = "Karātavu Spēle";
-            Size = new Size(950, 700);
+            Text = "Karātuves spēle";
+            Size = new Size(950, 780);
             StartPosition = FormStartPosition.CenterScreen;
             BackColor = Color.FromArgb(240, 242, 245);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -59,7 +59,7 @@ namespace HangmanGame.UI
             // Title Label with gradient effect
             _titleLabel = new Label
             {
-                Text = "K A R Ā T A V U   S P Ē L E",
+                Text = "K A R Ā T U V E S   S P Ē L E",
                 Font = new Font("Bahnschrift", 32F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(30, 39, 73),
                 AutoSize = false,
@@ -148,7 +148,7 @@ namespace HangmanGame.UI
 
             _wrongGuessesLabel = new Label
             {
-                Text = "Nepareizas minējumi: 0",
+                Text = "Nepareizie minējumi: 0",
                 Font = new Font("Bahnschrift", 15F, FontStyle.Regular),
                 ForeColor = Color.White,
                 AutoSize = false,
@@ -185,8 +185,8 @@ namespace HangmanGame.UI
             // Letter Panel
             _letterPanel = new Panel
             {
-                Location = new Point(30, 540),
-                Size = new Size(890, 130),
+                Location = new Point(30, 530),
+                Size = new Size(890, 190),
                 BackColor = Color.Transparent
             };
             Controls.Add(_letterPanel);
@@ -230,16 +230,21 @@ namespace HangmanGame.UI
 
         private void CreateLetterButtons()
         {
-            _letterButtons = new LetterButton[26];
-            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string alphabet = "AĀBCČDEĒFGĢHIĪJKĶLĻMNŅOPRSŠTUŪVZŽ";
+            _letterButtons = new LetterButton[alphabet.Length];
 
-            int buttonSize = 55;
+            int buttonSize = 50;
             int spacing = 10;
-            int buttonsPerRow = 13;
+            int buttonsPerRow = 11;
 
-            for (int i = 0; i < 26; i++)
+            // Calculate centered starting X position
+            int totalWidth = buttonsPerRow * buttonSize + (buttonsPerRow - 1) * spacing;
+            int startX = (_letterPanel.Width - totalWidth) / 2;
+
+            for (int i = 0; i < alphabet.Length; i++)
             {
                 char letter = alphabet[i];
+
                 int row = i / buttonsPerRow;
                 int col = i % buttonsPerRow;
 
@@ -248,10 +253,14 @@ namespace HangmanGame.UI
                     Text = letter.ToString(),
                     Letter = letter,
                     Size = new Size(buttonSize, buttonSize),
-                    Location = new Point(col * (buttonSize + spacing), row * (buttonSize + spacing))
+                    Location = new Point(
+                        startX + col * (buttonSize + spacing),
+                        row * (buttonSize + spacing)
+                    )
                 };
 
                 btn.Click += LetterButton_Click;
+
                 _letterButtons[i] = btn;
                 _letterPanel.Controls.Add(btn);
             }
@@ -274,7 +283,7 @@ namespace HangmanGame.UI
         {
             // Update UI
             _wordDisplayLabel.Text = result.DisplayWord;
-            _wrongGuessesLabel.Text = $"Nepareizas minējumi: {result.WrongGuesses}";
+            _wrongGuessesLabel.Text = $"Nepareizie minējumi: {result.WrongGuesses}";
             _attemptsLabel.Text = $"Atlikušie mēģinājumi: {result.RemainingAttempts}";
             _hangmanCanvas.WrongGuesses = result.WrongGuesses;
 
@@ -325,7 +334,7 @@ namespace HangmanGame.UI
             _hangmanCanvas.Reset();
             
             _wordDisplayLabel.Text = _gameEngine.GetDisplayWord();
-            _wrongGuessesLabel.Text = "Nepareizas minējumi: 0";
+            _wrongGuessesLabel.Text = "Nepareizie minējumi: 0";
             _attemptsLabel.Text = "Atlikušie mēģinājumi: 7";
             _scoreLabel.Text = $"Punkti: {_scoreManager.CurrentScore}";
 
@@ -346,6 +355,11 @@ namespace HangmanGame.UI
             {
                 btn.Enabled = false;
             }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
